@@ -1,4 +1,4 @@
-package pl.allegro;
+package net.eanlr.gameoflife;
 
 import java.util.List;
 import java.util.Random;
