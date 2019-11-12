@@ -95,16 +95,16 @@ public class GameOfLife extends Application {
 		boolean[][] newGrid = new boolean[GRID_COLS][GRID_ROWS];
 		for(int i = 0; i< GRID_ROWS; i++) {
 			for(int j = 0; j< GRID_COLS; j++) {
-				newGrid[i][j] = calculateLife(grid, Position.of(j, i));
+				newGrid[i][j] = calculateLife(grid, Coordinates.of(j, i));
 			}
 		}
 		grid = newGrid;
 		renderGrid();
 	}
 
-	private boolean calculateLife(boolean[][] grid, Position position) {
-		List<Position> neighbours = position.neighbours();
-		boolean alive = isAliveAt(grid, position);
+	private boolean calculateLife(boolean[][] grid, Coordinates coordinates) {
+		List<Coordinates> neighbours = coordinates.neighbours();
+		boolean alive = isAliveAt(grid, coordinates);
 		long aliveNeighbours = neighbours.stream()
 				.map(pos -> isAliveAt(grid, pos))
 				.filter(status -> status)
@@ -116,8 +116,10 @@ public class GameOfLife extends Application {
 		}
 	}
 
-	private boolean isAliveAt(boolean[][] grid, Position position) {
-		return grid[position.y][position.x];
+	private boolean isAliveAt(boolean[][] grid, Coordinates coordinates) {
+		if (coordinates.x < 0 || coordinates.x >= GRID_COLS) return false;
+		if (coordinates.y < 0 || coordinates.y >= GRID_ROWS) return false;
+		return grid[coordinates.y][coordinates.x];
 	}
 
 	private void renderGrid() {
